@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-    }
+    }   
 
     private void Update()
     {
@@ -18,15 +18,37 @@ public class PlayerMovement : MonoBehaviour
         input.y = Input.GetAxisRaw("Vertical");
         input.Normalize();
 
-        if (input != Vector2.zero)
+        if (Input.GetKeyDown(KeyCode.LeftShift)) // check if left shift key is pressed
         {
-            animator.SetFloat("Horizontal", input.x);
-            animator.SetFloat("Vertical", input.y);
-            lastInput = input;
+            if (input.y > 0) // up roll animation
+            {
+                animator.SetTrigger("RollUp");
+            }
+            else if (input.y < 0) // down roll animation
+            {
+                animator.SetTrigger("RollDown");
+            }
+            else if (input.x > 0) // right roll animation
+            {
+                animator.SetTrigger("RollRight");
+            }
+            else if (input.x < 0) // left roll animation
+            {
+                animator.SetTrigger("RollLeft");
+            }
         }
-
-        animator.SetFloat("Speed", input.magnitude);
+        else // normal movement animation
+        {
+            if (input != Vector2.zero)
+            {
+                animator.SetFloat("Horizontal", input.x);
+                animator.SetFloat("Vertical", input.y);
+                lastInput = input;
+            }
+            animator.SetFloat("Speed", input.magnitude);
+        }
 
         transform.position += new Vector3(input.x, input.y) * speed * Time.deltaTime;
     }
+
 }
