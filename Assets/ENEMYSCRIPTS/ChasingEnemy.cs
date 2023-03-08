@@ -9,7 +9,7 @@ public class ChasingEnemy : MonoBehaviour
     public GameObject agro;
 
     private float hitTimer = 0f;  
-    private bool isHitting = false;  
+    private bool hasHitPlayer = false;  
 
     private void Update()
     {
@@ -17,13 +17,13 @@ public class ChasingEnemy : MonoBehaviour
         Vector2 direction = (target.position - transform.position).normalized;
         transform.position += (Vector3)direction * speed * Time.deltaTime;
 
-        if (isHitting)
+        if (hasHitPlayer)
         {
-            hitTimer -= Time.deltaTime;
-            if (hitTimer <= 0f)
+            hitTimer += Time.deltaTime;
+            if (hitTimer >= hitDelay)
             {
-                hitTimer = hitDelay;
                 DealDamage();
+                hitTimer = 0f;
             }
         }
     }
@@ -32,8 +32,9 @@ public class ChasingEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            isHitting = true;
-            hitTimer = hitDelay;
+            DealDamage();
+            hasHitPlayer = true;
+            hitTimer = 0f;
         }
     }
 
@@ -41,20 +42,17 @@ public class ChasingEnemy : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            isHitting = false;
+            hasHitPlayer = false;
             hitTimer = 0f;
         }
     }
 
     void DealDamage()
     {
-        if (isHitting)
+        PlayerHealth playerHealth = target.gameObject.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
         {
-            PlayerHealth playerHealth = target.gameObject.GetComponent<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(damage);
-            }
+            playerHealth.TakeDamage(damage);
         }
     }
 }
