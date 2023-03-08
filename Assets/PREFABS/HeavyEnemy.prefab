@@ -72,9 +72,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6229528893203255774}
   - component: {fileID: 6229528893203255769}
-  - component: {fileID: 6229528893203255768}
   - component: {fileID: 6229528893203255772}
   - component: {fileID: 6229528893203255775}
+  - component: {fileID: 3604950605710638770}
   m_Layer: 0
   m_Name: HeavyEnemy
   m_TagString: Untagged
@@ -150,23 +150,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6229528893203255768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6229528893203255771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e45b7788fabdbf44da0b7564d60861ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 2861697186390184151, guid: 300a8f026268f42e7a3b0a49d0588838, type: 3}
-  speed: 1
-  damage: 50
-  hitDelay: 1
-  agro: {fileID: 6088633071755911405}
 --- !u!50 &6229528893203255772
 Rigidbody2D:
   serializedVersion: 4
@@ -214,3 +197,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &3604950605710638770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229528893203255771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f027ea4e341e4b749bbc8195363ef2eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  speed: 2
+  damage: 10
+  hitDelay: 0.2
