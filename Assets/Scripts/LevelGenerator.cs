@@ -227,6 +227,7 @@ public class LevelGenerator : MonoBehaviour
         {
             GameObject room = Instantiate(enemyRoom, roomPos, Quaternion.identity);
             getDoors(room, index);
+            /*
             if(enemyplan[index] == 1)
             {
                 room.GetComponent<EnemyVariations>().enemySet1.SetActive(true);
@@ -240,6 +241,7 @@ public class LevelGenerator : MonoBehaviour
             {
                 room.GetComponent<EnemyVariations>().enemySet4.SetActive(true);
             }
+            */
             
         }
         if (floorplan[index] == 3)
