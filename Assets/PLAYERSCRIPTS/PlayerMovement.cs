@@ -56,5 +56,6 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position += new Vector3(input.x, input.y) * currentSpeed * Time.deltaTime;
     }
+    
 
 }
