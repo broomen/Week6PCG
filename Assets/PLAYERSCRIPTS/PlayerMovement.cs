@@ -5,14 +5,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float speed = 3.5f;
     [SerializeField] private float rollSpeedMultiplier = 10f; 
     [SerializeField] private float meleeRange = 1.5f;
-    [SerializeField] private int meleeDamage = 2;
-    [SerializeField] private float meleePushForce = 2f;
-    [SerializeField] private float meleeStunDuration = 1f;
-    
+    [SerializeField] private int meleeDamage = 40;
+    [SerializeField] private float dashCooldown = 2f;
+    [SerializeField] private GameObject hitEffectPrefab; // New variable for the hit effect prefab
+
     private Animator animator;
     private Vector2 input;
     private Vector2 lastInput;
     private PlayerHealth playerHealth;
+    private float lastDashTime;
 
     private void Awake()
     {
@@ -34,8 +35,10 @@ public class PlayerMovement : MonoBehaviour
         input.Normalize();
 
         float currentSpeed = speed;
-        if (Input.GetKeyDown(KeyCode.LeftShift)) 
+        if (Input.GetKeyDown(KeyCode.LeftShift) && Time.time > lastDashTime + dashCooldown) 
         {
+            lastDashTime = Time.time;
+
             if (input.y > 0) 
             {
                 animator.SetTrigger("RollUp");
@@ -81,7 +84,9 @@ public class PlayerMovement : MonoBehaviour
                     Enemy enemy = collider.GetComponent<Enemy>();
                     if (enemy != null)
                     {
-                        enemy.TakeDamage(meleeDamage, new Vector2(meleePushForce, meleePushForce), meleeStunDuration, lastInput);
+                        enemy.TakeDamage(meleeDamage);
+                        // Spawn hit effect at the enemy's position
+                        Instantiate(hitEffectPrefab, enemy.transform.position, Quaternion.identity);
                     }
                 }
             }

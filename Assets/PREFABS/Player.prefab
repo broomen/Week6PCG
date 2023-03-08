@@ -145,6 +145,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   rollSpeedMultiplier: 15
+  meleeRange: 1.5
+  meleeDamage: 40
+  dashCooldown: 2
+  hitEffectPrefab: {fileID: 7226583673155636401, guid: a2ab56839e1c9504ea9d141e95d0b16b, type: 3}
 --- !u!61 &2861697186390184155
 BoxCollider2D:
   m_ObjectHideFlags: 0
