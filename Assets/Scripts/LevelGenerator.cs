@@ -11,7 +11,7 @@ public class LevelGenerator : MonoBehaviour
     public int gridSize = 100;
     public int[] floorplan = new int[100];
     public int[] enemyplan = new int[100];
-    public int maxRooms = 15;
+    public int maxRooms = 20;
     int roomCounter = 0; //to ensure X amount of special rooms
     int mainroomIndex;
     int leftroomIndex = 0;
@@ -289,6 +289,17 @@ public class LevelGenerator : MonoBehaviour
     void determineNextRoomType(int roomIndex)
     {
         int roomType = 0;
+        if(crawldistance > 1)
+        {
+            needsSpecial = true;
+        } else
+        {
+            needsSpecial = false;
+        }
+        if (specialRoomAmount == 3) //ensure only 3 special rooms
+        {
+            needsSpecial = false;
+        }
         if (needsSpecial)
         {
             Debug.Log("RoomCounter: " + roomCounter);
@@ -307,10 +318,6 @@ public class LevelGenerator : MonoBehaviour
         if (roomType == 4)
         {
             specialRoomAmount++;
-        }
-        if(specialRoomAmount == 3) //ensure only 3 special rooms
-        {
-            needsSpecial = false;
         }
         if(roomType == 2)
         {
