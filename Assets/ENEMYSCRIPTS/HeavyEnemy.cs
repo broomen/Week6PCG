@@ -6,12 +6,15 @@ public class HeavyEnemy : MonoBehaviour
     public float speed = 0.5f;
     public int damage = 50;
     public float hitDelay = 0.6f; 
+    public GameObject agro;
+
 
     private float hitTimer = 0f;  
     private bool hasHitPlayer = false;  
 
     private void Update()
     {
+        target = agro.GetComponent<Agro>().target;
         Vector2 direction = (target.position - transform.position).normalized;
         transform.position += (Vector3)direction * speed * Time.deltaTime;
 
