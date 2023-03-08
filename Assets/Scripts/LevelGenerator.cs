@@ -11,11 +11,14 @@ public class LevelGenerator : MonoBehaviour
     public int gridSize = 100;
     public int[] floorplan = new int[100];
     public int maxRooms = 10;
+    int roomCounter = 0; //to ensure X amount of special rooms
     int mainroomIndex;
     int leftroomIndex = 0;
     int rightroomIndex = 0;
     int downroomIndex = 0;
     int uproomIndex = 0;
+    public int specialRoomAmount = 0;
+    bool needsSpecial = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +69,7 @@ public class LevelGenerator : MonoBehaviour
             //nextRoom = determineNextRoom(currIndex);
             //currIndex = nextRoom;
             determineNextRoomType(currIndex);
+            roomCounter++;
         }
         for(int i = 0; i < floorplan.Length; i++)
         {
@@ -106,7 +110,6 @@ public class LevelGenerator : MonoBehaviour
         {
             directions.Add("r");
         }
-        Debug.Log(directions.Count);
         bool crawling = true;
         int direction;
         while (crawling)
@@ -172,64 +175,124 @@ public class LevelGenerator : MonoBehaviour
         Vector3 roomPos = new Vector3(0,0,0);
         if(index >= 0 && index < 10)
         {
-            roomPos = new Vector3(3 * (index % 10), 0, 0);
+            roomPos = new Vector3(20 * (index % 10), 0, 0);
         } 
         else if(index >= 10 && index < 20)
         {
-            roomPos = new Vector3(3 * (index % 10), -3, 0);
+            roomPos = new Vector3(20 * (index % 10), -20, 0);
         }
         else if (index >= 20 && index < 30)
         {
-            roomPos = new Vector3(3 * (index % 10), -6, 0);
+            roomPos = new Vector3(20 * (index % 10), -40, 0);
         }
         else if (index >= 30 && index < 40)
         {
-            roomPos = new Vector3(3 * (index % 10), -9, 0);
+            roomPos = new Vector3(20 * (index % 10), -60, 0);
         }
         else if (index >= 40 && index < 50)
         {
-            roomPos = new Vector3(3 * (index % 10), -12, 0);
+            roomPos = new Vector3(20 * (index % 10), -80, 0);
         }
         else if (index >= 50 && index < 60)
         {
-            roomPos = new Vector3(3 * (index % 10), -15, 0);
+            roomPos = new Vector3(20 * (index % 10), -100, 0);
         }
         else if (index >= 60 && index < 70)
         {
-            roomPos = new Vector3(3 * (index % 10), -18, 0);
+            roomPos = new Vector3(20 * (index % 10), -120, 0);
         }
         else if (index >= 70 && index < 80)
         {
-            roomPos = new Vector3(3 * (index % 10), -21, 0);
+            roomPos = new Vector3(20 * (index % 10), -140, 0);
         }
         else if (index >= 80 && index < 90)
         {
-            roomPos = new Vector3(3 * (index % 10), -24, 0);
+            roomPos = new Vector3(20 * (index % 10), -160, 0);
         }
         else if (index >= 90 && index < 100)
         {
-            roomPos = new Vector3(3 * (index % 10), -27, 0);
+            roomPos = new Vector3(20 * (index % 10), -180, 0);
         }
         if (floorplan[index] == 1)
         {
             GameObject room = Instantiate(mainRoom, roomPos, Quaternion.identity);
+            getDoors(room, index);
         }
         if (floorplan[index] == 2)
         {
             GameObject room = Instantiate(enemyRoom, roomPos, Quaternion.identity);
+            getDoors(room, index);
         }
         if (floorplan[index] == 3)
         {
             GameObject room = Instantiate(neutralRoom, roomPos, Quaternion.identity);
+            getDoors(room, index);
         }
         if (floorplan[index] == 4)
         {
+            PublicVars.paperAmount++;
             GameObject room = Instantiate(specialRoom, roomPos, Quaternion.identity);
+            getDoors(room, index);
+        }
+    }
+
+    void getDoors(GameObject room, int index)
+    {
+        if (floorplanCheckerUp(index) && index != mainroomIndex)
+        {
+            if (floorplan[index - 10] != 0)
+            {
+                room.GetComponent<Rooms>().upDoor.SetActive(true);
+            }
+        }
+        if (floorplanCheckerDown(index))
+        {
+            if (floorplan[index + 10] != 0 && index + 10 != mainroomIndex)
+            {
+                room.GetComponent<Rooms>().downDoor.SetActive(true);
+            }
+        }
+        if (floorplanCheckerLeft(index))
+        {
+            if (floorplan[index - 1] != 0)
+            {
+                room.GetComponent<Rooms>().leftDoor.SetActive(true);
+            }
+        }
+        if (floorplanCheckerRight(index))
+        {
+            if (floorplan[index + 1] != 0)
+            {
+                room.GetComponent<Rooms>().rightDoor.SetActive(true);
+            }
         }
     }
     void determineNextRoomType(int roomIndex)
     {
-        int roomType = Random.Range(2, 5);
+        int roomType = 0;
+        if (needsSpecial)
+        {
+            Debug.Log("RoomCounter: " + roomCounter);
+            Debug.Log("Max Rooms: " + maxRooms);
+            Debug.Log("Special Rooms: " + specialRoomAmount);
+            roomType = Random.Range(2, 5);
+        } 
+        else if (!needsSpecial)
+        {
+            roomType = Random.Range(2, 4);
+        }
+        if (needsSpecial && (maxRooms - roomCounter) < 4 && specialRoomAmount < 3)
+        {
+            roomType = 4;
+        }
+        if (roomType == 4)
+        {
+            specialRoomAmount++;
+        }
+        if(specialRoomAmount == 3) //ensure only 3 special rooms
+        {
+            needsSpecial = false;
+        }
         floorplan[roomIndex] = roomType;
         if (roomIndex == mainroomIndex)
         {
