@@ -5,13 +5,15 @@ public class ChasingEnemy : MonoBehaviour
     public Transform target;
     public float speed = 2f;
     public int damage = 10;
-    public float hitDelay = 0.2f; 
+    public float hitDelay = 0.2f;
+    public GameObject agro;
 
     private float hitTimer = 0f;  
     private bool isHitting = false;  
 
     private void Update()
     {
+        target = agro.GetComponent<Agro>().target;
         Vector2 direction = (target.position - transform.position).normalized;
         transform.position += (Vector3)direction * speed * Time.deltaTime;
 

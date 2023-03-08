@@ -10,7 +10,8 @@ public class LevelGenerator : MonoBehaviour
     public GameObject specialRoom;
     public int gridSize = 100;
     public int[] floorplan = new int[100];
-    public int maxRooms = 10;
+    public int[] enemyplan = new int[100];
+    public int maxRooms = 15;
     int roomCounter = 0; //to ensure X amount of special rooms
     int mainroomIndex;
     int leftroomIndex = 0;
@@ -19,12 +20,14 @@ public class LevelGenerator : MonoBehaviour
     int uproomIndex = 0;
     public int specialRoomAmount = 0;
     bool needsSpecial = true;
+    int crawldistance = 0;
     // Start is called before the first frame update
     void Start()
     {
         for (int i = 0; i < floorplan.Length; i++)
         {
             floorplan[i] = 0;
+            enemyplan[i] = 0;
         }
         mainroomIndex = Random.Range(1, 100); //cant be 0, between 1 and 99
         floorplan[mainroomIndex] = 1;
@@ -54,6 +57,7 @@ public class LevelGenerator : MonoBehaviour
         for (int i = 0; i < maxRooms; i++)
         {
             int path = Random.Range(1, 4); //determines if going left right or down
+            crawldistance = 0;
             if(path == 1 && leftroomIndex != 0)
             {
                 currIndex = crawlPath(leftroomIndex);
@@ -167,6 +171,7 @@ public class LevelGenerator : MonoBehaviour
                 }
             }
         }
+        crawldistance++;
         return nextIndex;
     }
 
@@ -222,6 +227,20 @@ public class LevelGenerator : MonoBehaviour
         {
             GameObject room = Instantiate(enemyRoom, roomPos, Quaternion.identity);
             getDoors(room, index);
+            if(enemyplan[index] == 1)
+            {
+                room.GetComponent<EnemyVariations>().enemySet1.SetActive(true);
+            } else if (enemyplan[index] == 2)
+            {
+                room.GetComponent<EnemyVariations>().enemySet2.SetActive(true);
+            } else if (enemyplan[index] == 3)
+            {
+                room.GetComponent<EnemyVariations>().enemySet3.SetActive(true);
+            } else if (enemyplan[index] == 4)
+            {
+                room.GetComponent<EnemyVariations>().enemySet4.SetActive(true);
+            }
+            
         }
         if (floorplan[index] == 3)
         {
@@ -292,6 +311,26 @@ public class LevelGenerator : MonoBehaviour
         if(specialRoomAmount == 3) //ensure only 3 special rooms
         {
             needsSpecial = false;
+        }
+        if(roomType == 2)
+        {
+            Debug.Log("distance: " + crawldistance);
+            if(crawldistance == 0)
+            {
+                enemyplan[roomIndex] = 1;
+            } 
+            else if (crawldistance == 1)
+            {
+                enemyplan[roomIndex] = 2;
+            } 
+            else if(crawldistance == 2)
+            {
+                enemyplan[roomIndex] = 3;
+            } 
+            else if(crawldistance >= 3)
+            {
+                enemyplan[roomIndex] = 4;
+            }
         }
         floorplan[roomIndex] = roomType;
         if (roomIndex == mainroomIndex)
