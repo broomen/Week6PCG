@@ -23,7 +23,7 @@ public class PickupItem : MonoBehaviour
 
             GetComponent<Renderer>().enabled = false;
             GetComponent<Collider2D>().enabled = false;
-
+            PublicVars.paperCount++;
             if (pickupEffect != null)
             {
                 Instantiate(pickupEffect, transform.position, transform.rotation);
