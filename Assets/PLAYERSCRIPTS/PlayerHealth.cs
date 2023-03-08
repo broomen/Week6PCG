@@ -2,11 +2,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
     public int currentHealth;
+    public Animator animator;
+    public float deathDelay = 1.0f;
 
     private SpriteRenderer spriteRenderer;
     private Color originalColor;
@@ -23,7 +24,7 @@ public class PlayerHealth : MonoBehaviour
         currentHealth -= damage;
         if (currentHealth <= 0)
         {
-            Die();
+            StartCoroutine(DeathCoroutine());
         }
         else
         {
@@ -38,8 +39,13 @@ public class PlayerHealth : MonoBehaviour
         spriteRenderer.color = originalColor;
     }
 
-    private void Die()
+    private IEnumerator DeathCoroutine()
     {
+        if (animator != null)
+        {
+            animator.SetTrigger("Death");
+            yield return new WaitForSeconds(deathDelay);
+        }
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
