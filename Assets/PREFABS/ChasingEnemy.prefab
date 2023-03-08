@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2861697186390184151, guid: 300a8f026268f42e7a3b0a49d0588838, type: 3}
-  speed: 2
+  speed: 1.5
   damage: 10
   hitDelay: 0.2
   agro: {fileID: 8452980658719392269}
@@ -202,7 +202,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 3.5
 --- !u!114 &2795063649292307944
 MonoBehaviour:
   m_ObjectHideFlags: 0
