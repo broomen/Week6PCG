@@ -185,6 +185,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  animator: {fileID: 2861697186390184153}
+  deathDelay: 1
 --- !u!1 &5335246381891123325
 GameObject:
   m_ObjectHideFlags: 0
