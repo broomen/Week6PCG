@@ -4,17 +4,27 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 3.5f;
     [SerializeField] private float rollSpeedMultiplier = 10f; 
+
     private Animator animator;
     private Vector2 input;
     private Vector2 lastInput;
+    private PlayerHealth playerHealth;
 
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        playerHealth = GetComponent<PlayerHealth>();
     }   
 
     private void Update()
     {
+        if (playerHealth.currentHealth <= 0) // disable movement if player is dead
+        {
+            input = Vector2.zero;
+            animator.SetFloat("Speed", 0f);
+            return;
+        }
+
         input.x = Input.GetAxisRaw("Horizontal");
         input.y = Input.GetAxisRaw("Vertical");
         input.Normalize();
@@ -56,6 +66,4 @@ public class PlayerMovement : MonoBehaviour
 
         transform.position += new Vector3(input.x, input.y) * currentSpeed * Time.deltaTime;
     }
-    
-
 }
