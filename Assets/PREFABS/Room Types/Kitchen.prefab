@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 750945207597616110}
   - component: {fileID: 2852622466580228300}
   m_Layer: 0
-  m_Name: dining area 2
+  m_Name: dining_area_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9055,7 +9055,7 @@ GameObject:
   - component: {fileID: 8030111122754863155}
   - component: {fileID: 6207436525132890654}
   m_Layer: 0
-  m_Name: dining area 1
+  m_Name: dining_area_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
