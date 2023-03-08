@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float speed = 3.5f;
-    [SerializeField] private float rollSpeedMultiplier = 15f; 
+    [SerializeField] private float rollSpeedMultiplier = 10f; 
     private Animator animator;
     private Vector2 input;
     private Vector2 lastInput;
